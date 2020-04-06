@@ -17,7 +17,7 @@ var sch = new schema({
     subQuestion : {type : Boolean, default : false},   // true if this question have sub-question
     condition : {type : Boolean},                      // condition compare with user input , for either to show sub-question or not
 
-    subQuestion : [{
+    subQuestionAre: [{
         question : {type : String},
         type : {type : String, required : true},          
         totalOptions : {type : Number, required : true},  
