@@ -1,0 +1,52 @@
+[
+    {
+        "category" : "lifestyle",       
+        "question" : "abcd",
+        "type" :    "mcq",     
+        "totalOptions" : "4",    
+
+        "optionsAre" : [
+            { "option" : "option 1" ,     "value"  :  "1" },
+            { "option" : "option 2" ,     "value"  :  "2" },
+            { "option" : "option 3" ,     "value"  :  "3" },
+            { "option" : "option 4" ,     "value"  :  "4" }
+        ],     
+
+        "subQuestion" : "false",  
+        "condition" : "false",                    
+        "subQuestionAre" : [{
+            "question" : "null",
+            "type" : "null",          
+            "totalOptions" :"null",  
+            
+            "optionsAre" : [{
+                "option" : "null",       
+                "value"  : "null"         
+            }]
+        }]
+    },
+    {
+        "category" : "lifestyle",       
+        "question" : "DO u drink alcohol",
+        "type" :    "boolean",     
+        "totalOptions" : "2",    
+
+        "optionsAre" : [
+            { "option" : "Yes" ,     "value"  :  "2" },
+            { "option" : "No" ,     "value"  :  "0" }
+        ],     
+
+        "subQuestion" : "true",  
+        "condition" : "true",                    
+        "subQuestionAre" : [{
+            "question" : "What is the frequency of alcohol consumption",
+            "type" : "mcq",          
+            "totalOptions" :"2",  
+            
+            "optionsAre" : [
+                { "option" : "More than 60ml", "value"  : "2"},
+                { "option" : "30ml", "value"  : "0"}
+            ]
+        }]
+    }
+]
