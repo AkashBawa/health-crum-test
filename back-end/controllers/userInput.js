@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 // from UI we need to get main question _id then its subquestion _id
 
-var userId = "5e8e0f7d4482102abc2d6029";    // in real time this id is replaced by the id of user login
+var userId = "5e8e24aece22d82f60e2af28"    // in real time this id is replaced by the id of user login
 
 exports.saveUserAns =  async function(req, res) {
     
@@ -22,13 +22,13 @@ exports.saveUserAns =  async function(req, res) {
         }]
     }]
     
-    /*
+  
     var userProf = new userProfile();
     var user = new userProfile({
         name : "akash"
     })
-    */
-   // await user.save();
+  
+    //await user.save();
    //console.log("form length " + fromUser.length);
     for(let i = 0; i < fromUser.length; i++) {
         console.log("first loop");
@@ -62,15 +62,19 @@ exports.saveUserAns =  async function(req, res) {
         })
     }
     
+   console.log("game begin")
+    
+    userProfile.findOne({ name : 'akash' }).
+        populate('questionId').
+        exec(function (err, story) {
+            if (err) return handleError(err);
+            console.log( story);
+            // prints "The author is Ian Fleming"
+        
+        });
+    
 /*
-            userProfile.findOne({ name : 'akash' }).
-            populate('questionId').
-            exec(function (err, story) {
-                if (err) return handleError(err);
-                console.log('The author is %s', story);
-                // prints "The author is Ian Fleming"
             
-            });
         }  
     })
     /*
