@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const fs = require('fs');
+const contrUser = require('../controllers/userInput');
 const ques = require('../models/questions');
 
 /* GET home page. */
@@ -19,22 +20,19 @@ router.get('/question', function(req, res, next){
 })
 */
 
+router.get('/usersave', contrUser.saveUserAns)
+
 router.get('/upload', function(req, res){
   //var url = 
   console.log("upload json works");
-
   let jsonData = JSON.parse(fs.readFileSync(__dirname + '/question.json', 'utf-8'))
-
-
   for(let i = 0;  i < jsonData.length; i++) {
-    
     var questions = new ques();
     //console.log(jsonData[i]);
     questions.category = jsonData[i].category;
     questions.question = jsonData[i].question;
     questions.type = jsonData[i].type;
     questions.totalOptions = jsonData[i].totalOptions;
-    
     questions.optionsAre = jsonData[i].optionsAre;
     
     //console.log(questions.optionsAre)
@@ -42,23 +40,18 @@ router.get('/upload', function(req, res){
     questions.subQuestion = jsonData[i].subQuestion;
     if(questions.subQuestion == true) {
       questions.condition = jsonData[i].condition;
-      
       questions.subQuestionAre = jsonData[i].subQuestionAre;
-     
-      console.log(questions.subQuestionAre);
+      //console.log(questions.subQuestionAre);
     }
-    
     questions.save(function(err,  result){
       if(err) {
         throw err;
       }
       else{
-        console.log("saved")
+      //  console.log("saved")
         console.log(result);
       }
     })
   }    
 })
-
-
 module.exports = router;
