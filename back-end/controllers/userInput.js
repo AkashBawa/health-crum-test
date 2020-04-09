@@ -28,53 +28,69 @@ exports.saveUserAns =  async function(req, res) {
         name : "akash"
     })
   
-    //await user.save();
-   //console.log("form length " + fromUser.length);
-    for(let i = 0; i < fromUser.length; i++) {
-        console.log("first loop");
-        var hrSAve = {
-            questionId : fromUser[i].questionId,
-            ans : fromUser[i].mainans,
-            score : fromUser[i].mainScore,
-            subans: []
-        }
-        var subans = [];
-        console.log("sub question length " + fromUser[i].subquestion.length)
-        for(let j = 0 ; j < fromUser[i].subquestion.length; j++) {
-            console.log("second loop")
-            var subans = {
-                ans : fromUser[i].subquestion[j].subAns,
-                score : fromUser[i].subquestion[j].value
-            }
-            hrSAve.subans.push(subans);
-          //  console.log(hrSAve);
-        }
-        //console.log("hr save is " + JSON.stringify(hrSAve))
-        
-        await userProfile.update({_id : userId},  { $push: { hraQuestions: hrSAve } },function(err, result) {
-            if(err) {
-                console.log(err);
-            }
-            else{
-                console.log(result);
-            //userProf = result
-            }
-        })
-    }
-    
-   console.log("game begin")
-    
-    userProfile.findOne({ name : 'akash' }).
-        populate('questionId').
-        exec(function (err, story) {
-            if (err) return handleError(err);
-            console.log( story);
-            // prints "The author is Ian Fleming"
-        
-        });
-    
-/*
+    /*await user.save((err, result)=>{
+        if(err) console.log(err)
+        else console.log(result)
+    });*/
+
+    questions.findOne({}, async function(err, result) {
+       if(err){
+           console.log(err);
+       }
+       else{
+          // console.log(result);
+
+           for(let i = 0; i < fromUser.length; i++) {
+             var hrSAve = {
+                 //questionId : fromUser[i].questionId,
+                 questionId : result._id,
+                 ans : fromUser[i].mainans,
+                 score : fromUser[i].mainScore,
+                 subans: []
+             }
+             var subans = [];
             
+             for(let j = 0 ; j < fromUser[i].subquestion.length; j++) {
+                 var subans = {
+                     ans : fromUser[i].subquestion[j].subAns,
+                     score : fromUser[i].subquestion[j].value
+                 }
+                 hrSAve.subans.push(subans);
+             }
+             var del = {
+                 ans : "Akash project"
+             }
+             await userProfile.update({name : "akash"},  { $set: {hraQuestions :  { questionId : result._id}}},function(err, result) {
+                 if(err) {
+                     console.log(err);
+                 }
+                 else{
+                     console.log(result);
+                 }
+             })
+         }
+         
+        console.log("game begin")
+        await userProfile.findOne({name : "akash"}, function(err, result){
+            if(err) console.log(err);
+            else console.log("first" + result)
+        })
+        await userProfile.findOne({ name : 'akash' })
+            .populate({ 
+                path: 'hraQuestions.questionId'
+            }) 
+             .exec(function (err, story) {
+                 if (err) return handleError(err);
+                 console.log( JSON.stringify(story));
+                 
+            });
+       }
+        userProfile.findOne({name : "akash"}, function(err, result){
+            if(err) console.log(err);
+            else console.log("last" + result)
+            })
+   })
+/*
         }  
     })
     /*
@@ -87,6 +103,5 @@ exports.saveUserAns =  async function(req, res) {
     })
 
     */
-
     res.send("saved ")
 }
