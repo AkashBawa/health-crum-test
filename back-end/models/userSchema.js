@@ -5,8 +5,6 @@ var Schema = mongoose.Schema;
 var sch = new Schema({
    
     name : {type : String, required : true},
-    //uestionId : { type: Schema.Types.ObjectId, ref: 'questions'}
-    
     hraQuestions : [
         {
             questionId : { type: Schema.Types.ObjectId, ref: 'questions'},

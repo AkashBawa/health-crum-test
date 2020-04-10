@@ -19,8 +19,11 @@ router.get('/question', function(req, res, next){
   })
 })
 */
-
-router.get('/usersave', contrUser.saveUserAns)
+router.post('/', function(req, res){
+  console.log("previous")
+})
+router.post('/usersave', contrUser.saveUserAns);
+router.get('/fetchquestion',contrUser.getQuestion);
 
 router.get('/upload', function(req, res){
   //var url = 

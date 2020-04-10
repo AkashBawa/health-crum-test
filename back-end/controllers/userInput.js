@@ -10,7 +10,8 @@ const Schema = mongoose.Schema;
 var userId = "5e8efa895b324a3e4c97a278"   // in real time this id is replaced by the id of user login
 
 exports.saveUserAns =  async function(req, res) {
-
+    console.log("post request reached");
+    console.log(req.body);
     var fromUser = [{
         questionId :"5e8c2cb0e3ddc11f5058a607",           // main question _id
         mainans : "yes",
@@ -37,19 +38,19 @@ exports.saveUserAns =  async function(req, res) {
         }
         hrSave.subans.push(subans);
     }
-    console.log(hrSave);
+   // console.log(hrSave);
 
-    console.log("before")
+    //console.log("before")
     var activeUser = await userProfile.find({_id : userId})
-    console.log("Active user" , activeUser)
+    //console.log("Active user" , activeUser)
     // first time user true hra
     if(activeUser.length > 0) {
-        console.log("active user");
+        //console.log("active user");
         
         let present= await userProfile.find({_id : '5e8f6a9cd548ec412c1b332b', 'hraQuestions.questionId' : fromUser[0].questionId})
         
         if(!present) {
-            console.log("first attempt")    
+            //console.log("first attempt")    
             userProfile.update({name : "akash"},{ $push : {hraQuestions : hrSave}} , function(err, update){
                 if (err) console.log(err);
                 else console.log("new question added");
@@ -58,15 +59,15 @@ exports.saveUserAns =  async function(req, res) {
         }
         // user attempt this question second time 
         else{
-            console.log("else reach")
-            console.log(hrSave);
+            //console.log("else reach")
+            //console.log(hrSave);
             userProfile.update({_id : '5e8f6a9cd548ec412c1b332b', 'hraQuestions.questionId' : fromUser[0].questionId}, {$set :{hraQuestions : hrSave}}, (err,resul)=>{
                 console.log(resul)
             })
         }
     }
     else {
-        console.log("new user");
+       // console.log("new user");
         var userProf = new userProfile();
         var user = new userProfile({
             name : "bawa",
@@ -129,4 +130,30 @@ exports.saveUserAns =  async function(req, res) {
        }
    })*/
     res.send("saved ")
+}
+
+//=============================================================================================================//
+
+exports.retriveData = async function (req, res) {
+    await userProfile.findOne({_id : userId})
+        .populate({ 
+            path: 'hraQuestions.questionId'
+        }) 
+        .exec(function (err, story) {
+            if (err) return handleError(err);
+            console.log( JSON.stringify(story));
+        });
+}
+
+//===========================================================================================================//
+
+exports.getQuestion =async function(req, res) {
+    let question  = await questions.find({category : "lifestyle"});
+    if(!question) {
+        res.send("invalid input");
+    }
+    else{
+        console.log(question);
+        res.json(question);
+    }
 }

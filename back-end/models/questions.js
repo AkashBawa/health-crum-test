@@ -15,7 +15,7 @@ var sch = new schema({
     }],     
 
     subQuestion : {type : Boolean, default : false},   // true if this question have sub-question
-    condition : {type : Boolean},                      // condition compare with user input , for either to show sub-question or not
+    condition : {type : String},                      // condition compare with user input , for either to show sub-question or not
 
     subQuestionAre: [{
         question : {type : String},
@@ -30,4 +30,4 @@ var sch = new schema({
     
 })
 
-module.exports = mongoose.model('question', sch);
+module.exports = mongoose.model('questions', sch)
